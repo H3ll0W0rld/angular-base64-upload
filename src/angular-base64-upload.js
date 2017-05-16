@@ -286,9 +286,11 @@
               ngModel.$setValidity('maxsize', true);
               ngModel.$setValidity('minsize', true);
               ngModel.$setValidity('accept', true);
+            } else {
+              _setViewValue();
             }
           });
-
+        
           elem.on('change', function(e) {
 
             fileObjects = [];
