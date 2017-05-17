@@ -1,3 +1,7 @@
+/*! angular-base64-upload - v0.1.22
+ * https://github.com/adonespitogo/angular-base64-upload
+ * Copyright (c) Adones Pitogo <pitogo.adones@gmail.com> [Wed Apr 26 2017]
+ * Licensed MIT */
 (function(window, undefined) {
 
   'use strict';
@@ -143,14 +147,18 @@
 
           //end validations ===============
 
+          function validate(val) {
+            _maxsize(val);
+            _minsize(val);
+            _maxnum(val);
+            _minnum(val);
+            _accept(val);
+          }
+
           function _setViewValue() {
             var newVal = attrs.multiple ? fileObjects : fileObjects[0];
             ngModel.$setViewValue(newVal);
-            _maxsize(newVal);
-            _minsize(newVal);
-            _maxnum(newVal);
-            _minnum(newVal);
-            _accept(newVal);
+            validate(newVal);
           }
 
           function _attachHandlerForEvent(eventName, handler, fReader, file, fileObject) {
@@ -286,8 +294,11 @@
               ngModel.$setValidity('maxsize', true);
               ngModel.$setValidity('minsize', true);
               ngModel.$setValidity('accept', true);
+            } else {
+              // Re-run validations
+              validate(val);
             }
-          });
+          }, true);
 
           elem.on('change', function(e) {
 
